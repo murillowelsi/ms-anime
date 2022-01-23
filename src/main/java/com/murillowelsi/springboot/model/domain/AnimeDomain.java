@@ -1,5 +1,6 @@
 package com.murillowelsi.springboot.model.domain;
 
+import com.murillowelsi.springboot.model.dto.request.AnimeRequest;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -19,4 +20,10 @@ public class AnimeDomain {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    public static AnimeDomain valueOf(AnimeRequest animeRequest) {
+        return builder()
+                .name(animeRequest.getName())
+                .build();
+    }
 }
