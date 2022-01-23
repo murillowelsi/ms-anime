@@ -1,6 +1,6 @@
 package com.murillowelsi.springboot.controller;
 
-import com.murillowelsi.springboot.domain.AnimeDomain;
+import com.murillowelsi.springboot.model.domain.AnimeDomain;
 import com.murillowelsi.springboot.service.AnimeService;
 import com.murillowelsi.springboot.util.DateUtil;
 import lombok.RequiredArgsConstructor;

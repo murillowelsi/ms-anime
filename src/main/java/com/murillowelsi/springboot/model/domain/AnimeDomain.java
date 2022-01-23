@@ -1,4 +1,4 @@
-package com.murillowelsi.springboot.domain;
+package com.murillowelsi.springboot.model.domain;
 
 import lombok.*;
 

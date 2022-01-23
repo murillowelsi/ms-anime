@@ -1,6 +1,6 @@
 package com.murillowelsi.springboot.repository;
 
-import com.murillowelsi.springboot.domain.AnimeDomain;
+import com.murillowelsi.springboot.model.domain.AnimeDomain;
 
 import java.util.List;
 

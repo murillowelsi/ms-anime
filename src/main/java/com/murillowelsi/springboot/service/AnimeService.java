@@ -1,6 +1,6 @@
 package com.murillowelsi.springboot.service;
 
-import com.murillowelsi.springboot.domain.AnimeDomain;
+import com.murillowelsi.springboot.model.domain.AnimeDomain;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
