@@ -22,32 +22,32 @@ public class AnimeController {
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public List<AnimeDomain> list(){
+    public List<AnimeDomain> list() {
         log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
         return animeService.findAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public AnimeDomain findById(@PathVariable long id){
+    public AnimeDomain findById(@PathVariable long id) {
         return animeService.findByIdOrThrowBadRequestException(id);
     }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public AnimeDomain createNewAnime(@RequestBody AnimeRequest animeRequest){
+    public AnimeDomain createNewAnime(@RequestBody AnimeRequest animeRequest) {
         return animeService.createNewAnime(animeRequest);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateAnimeById(@PathVariable long id, @RequestBody AnimeRequest animeRequest){
+    public void updateAnimeById(@PathVariable long id, @RequestBody AnimeRequest animeRequest) {
         animeService.updateAnimeById(id, animeRequest);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteAnimeById(@PathVariable long id){
+    public void deleteAnimeById(@PathVariable long id) {
         animeService.deleteAnimeById(id);
     }
 }

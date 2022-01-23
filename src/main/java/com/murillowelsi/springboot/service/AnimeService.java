@@ -17,16 +17,16 @@ public class AnimeService {
 
     private final AnimeRepository animeRepository;
 
-    public List<AnimeDomain> findAll(){
+    public List<AnimeDomain> findAll() {
         return animeRepository.findAll();
     }
 
-    public AnimeDomain findByIdOrThrowBadRequestException(long id){
+    public AnimeDomain findByIdOrThrowBadRequestException(long id) {
         return animeRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found."));
     }
 
-    public AnimeDomain createNewAnime(AnimeRequest animeRequest){
+    public AnimeDomain createNewAnime(AnimeRequest animeRequest) {
         return animeRepository.save(
                 AnimeDomain.builder()
                         .name(animeRequest.getName())
@@ -34,7 +34,7 @@ public class AnimeService {
         );
     }
 
-    public void updateAnimeById(long id, AnimeRequest animeRequest){
+    public void updateAnimeById(long id, AnimeRequest animeRequest) {
         findByIdOrThrowBadRequestException(id);
 
         AnimeDomain updatedAnimeDomain = AnimeDomain.valueOf(animeRequest);
@@ -43,7 +43,7 @@ public class AnimeService {
         animeRepository.save(updatedAnimeDomain);
     }
 
-    public void deleteAnimeById(long id){
+    public void deleteAnimeById(long id) {
         animeRepository.delete(findByIdOrThrowBadRequestException(id));
     }
 }
