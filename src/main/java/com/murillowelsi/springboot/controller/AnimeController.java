@@ -1,6 +1,8 @@
 package com.murillowelsi.springboot.controller;
 
 import com.murillowelsi.springboot.model.domain.AnimeDomain;
+import com.murillowelsi.springboot.model.dto.request.AnimePostRequestBody;
+import com.murillowelsi.springboot.model.dto.request.AnimePutRequestBody;
 import com.murillowelsi.springboot.service.AnimeService;
 import com.murillowelsi.springboot.util.DateUtil;
 import lombok.RequiredArgsConstructor;
@@ -29,19 +31,19 @@ public class AnimeController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public AnimeDomain findById(@PathVariable long id){
-        return animeService.findById(id);
+        return animeService.findByIdOrThrowBadRequestException(id);
     }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public AnimeDomain createNewAnime(@RequestBody AnimeDomain animeDomain){
-        return animeService.createNewAnime(animeDomain);
+    public AnimeDomain createNewAnime(@RequestBody AnimePostRequestBody animePostRequestBody){
+        return animeService.createNewAnime(animePostRequestBody);
     }
 
     @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateAnimeById(@RequestBody AnimeDomain animeDomain){
-        animeService.updateAnimeById(animeDomain);
+    public void updateAnimeById(@RequestBody AnimePutRequestBody animePutRequestBody){
+        animeService.updateAnimeById(animePutRequestBody);
     }
 
     @DeleteMapping("/{id}")
