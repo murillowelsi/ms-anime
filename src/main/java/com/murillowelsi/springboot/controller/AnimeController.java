@@ -1,8 +1,7 @@
 package com.murillowelsi.springboot.controller;
 
 import com.murillowelsi.springboot.model.domain.AnimeDomain;
-import com.murillowelsi.springboot.model.dto.request.AnimePostRequestBody;
-import com.murillowelsi.springboot.model.dto.request.AnimePutRequestBody;
+import com.murillowelsi.springboot.model.dto.request.AnimeRequest;
 import com.murillowelsi.springboot.service.AnimeService;
 import com.murillowelsi.springboot.util.DateUtil;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@RestController
-@RequestMapping("animes")
 @Log4j2
+@RestController
+@RequestMapping("/animes")
 @RequiredArgsConstructor
 public class AnimeController {
     private final DateUtil dateUtil;
@@ -36,14 +35,14 @@ public class AnimeController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public AnimeDomain createNewAnime(@RequestBody AnimePostRequestBody animePostRequestBody){
-        return animeService.createNewAnime(animePostRequestBody);
+    public AnimeDomain createNewAnime(@RequestBody AnimeRequest animeRequest){
+        return animeService.createNewAnime(animeRequest);
     }
 
-    @PutMapping()
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateAnimeById(@RequestBody AnimePutRequestBody animePutRequestBody){
-        animeService.updateAnimeById(animePutRequestBody);
+    public void updateAnimeById(@PathVariable long id, @RequestBody AnimeRequest animeRequest){
+        animeService.updateAnimeById(id, animeRequest);
     }
 
     @DeleteMapping("/{id}")
