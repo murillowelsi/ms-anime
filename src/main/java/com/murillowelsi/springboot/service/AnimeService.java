@@ -1,8 +1,7 @@
 package com.murillowelsi.springboot.service;
 
 import com.murillowelsi.springboot.model.domain.AnimeDomain;
-import com.murillowelsi.springboot.model.dto.request.AnimePostRequestBody;
-import com.murillowelsi.springboot.model.dto.request.AnimePutRequestBody;
+import com.murillowelsi.springboot.model.dto.request.AnimeRequest;
 import com.murillowelsi.springboot.repository.AnimeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,22 +26,21 @@ public class AnimeService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found."));
     }
 
-    public AnimeDomain createNewAnime(AnimePostRequestBody animePostRequestBody){
+    public AnimeDomain createNewAnime(AnimeRequest animeRequest){
         return animeRepository.save(
                 AnimeDomain.builder()
-                        .name(animePostRequestBody.getName())
+                        .name(animeRequest.getName())
                         .build()
         );
     }
 
-    public void updateAnimeById(AnimePutRequestBody animePutRequestBody){
-        AnimeDomain savedAnime = findByIdOrThrowBadRequestException(animePutRequestBody.getId());
-        AnimeDomain animeDomain = AnimeDomain.builder()
-                .id(savedAnime.getId())
-                .name(animePutRequestBody.getName())
-                .build();
+    public void updateAnimeById(long id, AnimeRequest animeRequest){
+        findByIdOrThrowBadRequestException(id);
 
-        animeRepository.save(animeDomain);
+        AnimeDomain updatedAnimeDomain = AnimeDomain.valueOf(animeRequest);
+        updatedAnimeDomain.setId(id);
+
+        animeRepository.save(updatedAnimeDomain);
     }
 
     public void deleteAnimeById(long id){
