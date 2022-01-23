@@ -1,47 +1,51 @@
 package com.murillowelsi.springboot.service;
 
 import com.murillowelsi.springboot.model.domain.AnimeDomain;
+import com.murillowelsi.springboot.model.dto.request.AnimePostRequestBody;
+import com.murillowelsi.springboot.model.dto.request.AnimePutRequestBody;
+import com.murillowelsi.springboot.repository.AnimeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 
 @Service
+@RequiredArgsConstructor
 public class AnimeService {
-    private static final List<AnimeDomain> animes;
 
-    static {
-        animes = new ArrayList<>(List.of(new AnimeDomain(1L,"DBZ"), new AnimeDomain(2L, "Sakura")));
-    }
+    private final AnimeRepository animeRepository;
 
     public List<AnimeDomain> findAll(){
-        return animes;
+        return animeRepository.findAll();
     }
 
-    public AnimeDomain findById(long id){
-        return animes.stream()
-                .filter(anime -> anime.getId().equals(id))
-                .findFirst()
+    public AnimeDomain findByIdOrThrowBadRequestException(long id){
+        return animeRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found."));
     }
 
-    public AnimeDomain createNewAnime(AnimeDomain animeDomain){
-        animeDomain.setId(ThreadLocalRandom.current().nextLong(3,100));
-        animes.add(animeDomain);
-
-        return animeDomain;
+    public AnimeDomain createNewAnime(AnimePostRequestBody animePostRequestBody){
+        return animeRepository.save(
+                AnimeDomain.builder()
+                        .name(animePostRequestBody.getName())
+                        .build()
+        );
     }
 
-    public void updateAnimeById(AnimeDomain animeDomain){
-        deleteAnimeById(animeDomain.getId());
-        animes.add(animeDomain);
+    public void updateAnimeById(AnimePutRequestBody animePutRequestBody){
+        AnimeDomain savedAnime = findByIdOrThrowBadRequestException(animePutRequestBody.getId());
+        AnimeDomain animeDomain = AnimeDomain.builder()
+                .id(savedAnime.getId())
+                .name(animePutRequestBody.getName())
+                .build();
+
+        animeRepository.save(animeDomain);
     }
 
     public void deleteAnimeById(long id){
-        animes.remove(findById(id));
+        animeRepository.delete(findByIdOrThrowBadRequestException(id));
     }
 }
