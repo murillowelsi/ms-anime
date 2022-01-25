@@ -33,6 +33,13 @@ public class AnimeController {
         return animeService.findByIdOrThrowBadRequestException(id);
     }
 
+    @GetMapping("/")
+    @ResponseStatus(HttpStatus.OK)
+    public List<AnimeDomain> findByName(@RequestParam String name) {
+        return animeService.findByName(name);
+    }
+
+
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public AnimeDomain createNewAnime(@RequestBody AnimeRequest animeRequest) {
