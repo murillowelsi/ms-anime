@@ -2,6 +2,7 @@ package com.murillowelsi.springboot.service;
 
 import com.murillowelsi.springboot.model.domain.AnimeDomain;
 import com.murillowelsi.springboot.model.dto.request.AnimeRequest;
+import com.murillowelsi.springboot.model.mapper.AnimeMapper;
 import com.murillowelsi.springboot.repository.AnimeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,11 +28,7 @@ public class AnimeService {
     }
 
     public AnimeDomain createNewAnime(AnimeRequest animeRequest) {
-        return animeRepository.save(
-                AnimeDomain.builder()
-                        .name(animeRequest.getName())
-                        .build()
-        );
+        return animeRepository.save(AnimeMapper.INSTANCE.toAnime(animeRequest));
     }
 
     public void updateAnimeById(long id, AnimeRequest animeRequest) {
